@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { a } from "./types"
 defineProps<{
   msg: string
 }>()
