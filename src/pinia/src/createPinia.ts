@@ -15,9 +15,9 @@ export function createPinia(): Pinia {
     ref<Record<string, StateTree>>({})
   )!
 
-  let _p: Pinia['_p'] = []
+  let _p: Pinia['_p'] = []  // 存储插件的数组
   // plugins added before calling app.use(pinia)
-  let toBeInstalled: PiniaPlugin[] = []
+  let toBeInstalled: PiniaPlugin[] = [] // 存储在调用 app.use(pinia) 之前添加的插件
   // 创建 Pinia 实例
   const pinia: Pinia = markRaw({
     // 安装方法，将 pinia 注入到应用中
