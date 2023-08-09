@@ -3,7 +3,7 @@
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld :msg="a.num.toString()" />
+      <HelloWorld :msg="test.$state.num.toString()" />
       <button @click="triggerA">a++</button>
       <nav>
         <RouterLink to="/">Home</RouterLink>
@@ -19,17 +19,18 @@
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import { defineComponent } from "vue"
+import { useTest } from "./store/useTest";
 export default defineComponent({
   setup() {
     const a = { num: 1 };
+    const test = useTest();
     const triggerA = () => {
-      a.num++;
-      console.log(a.num)
+      test.add();
     }
     return {
       a,
       triggerA,
-      HelloWorld
+      test
     }
   },
   components: {

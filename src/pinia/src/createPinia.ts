@@ -22,13 +22,13 @@ export function createPinia(): Pinia {
   const pinia: Pinia = markRaw({
     // 安装方法，将 pinia 注入到应用中
     install(app: App) {
-      console.log("Goooooooo")
       // 设置 pinia 为活动状态，允许在组件外部调用 useStore()
       setActivePinia(pinia)
+      // 如果是Vue全局注册已经在PiniaVuePlugin完成，不需要执行以下逻辑
       if (!isVue2) {
-        pinia._a = app
-        app.provide(piniaSymbol, pinia)
-        app.config.globalProperties.$pinia = pinia
+        pinia._a = app // 保存app
+        app.provide(piniaSymbol, pinia) // provide传递Pinia实例
+        app.config.globalProperties.$pinia = pinia // 设置全局属性$pinia
         /* istanbul ignore else */
         if (USE_DEVTOOLS) {
           registerPiniaDevtools(app, pinia)
@@ -55,9 +55,9 @@ export function createPinia(): Pinia {
     // it's actually undefined here
     // @ts-expect-error
     _a: null, // 将在 install 方法中设置
-    _e: scope, // 作用域
+    _e: scope, // 作用域对象，每隔store都是独立作用域
     _s: new Map<string, StoreGeneric>(), // 存储 Store 对象的 Map
-    state, // 存储状态
+    state, // 所有state的合集 key为pinia的id value为store下的所有state（所有可访问变量）
   })
 
   // pinia devtools rely on dev only features so they cannot be forced unless
