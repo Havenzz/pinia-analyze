@@ -19,11 +19,11 @@
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import { defineComponent } from "vue"
-import { useTest } from "./store/useTest";
+import { useTestStore1 } from "./store/useTest";
 export default defineComponent({
   setup() {
     const a = { num: 1 };
-    const test = useTest();
+    const test = useTestStore1();
     const triggerA = () => {
       test.add();
     }
