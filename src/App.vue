@@ -18,19 +18,39 @@
 <script lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import { defineComponent } from "vue"
+import { defineComponent, toRefs, ref, computed } from "vue"
 import { useTestStore1 } from "./store/useTest";
 export default defineComponent({
   setup() {
     const a = { num: 1 };
     const test = useTestStore1();
     const triggerA = () => {
-      test.add();
+      test.$state.num++;
     }
+    const b = {
+      c: 1,
+      b: 2,
+      d: {
+        hah: 1
+      }
+    }
+    const e = toRefs(b)
+    console.log(e)
+    let d = 1;
+    let f = 2;
+    const g = computed(() => {
+      return d + f
+    })
+    console.log(g.value);
+    setTimeout(() => {
+      d = 4
+      console.log(g.value)
+    }, 2000);
     return {
       a,
       triggerA,
-      test
+      test,
+      b
     }
   },
   components: {
