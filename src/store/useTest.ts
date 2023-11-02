@@ -24,7 +24,7 @@ export const useTestStore2 = defineStore({
   id:"test2", 
   state() {
     return {
-      num: 0
+      num: 0 
     }
   },
   actions: {
