@@ -10,7 +10,7 @@ export const useTestStore1 = defineStore("test1", {
   actions: {
     add() {
       this.num++;
-      // console.log(this)
+      console.log(this.num)
     }
   },
   getters: {

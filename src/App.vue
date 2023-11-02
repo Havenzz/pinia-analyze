@@ -3,30 +3,53 @@
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld :msg="test.$state.num.toString()" />
-      <button @click="triggerA">a++</button>
+      <!-- <HelloWorld :msg="test.$state.num.toString()" /> -->
+      <button ref="countRef" @click="triggerA">{{ count }}</button>
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>
   </header>
-
+  <button @click="triggerA"></button>
   <RouterView />
 </template>
 
 <script lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import { defineComponent, toRefs, ref, computed } from "vue"
+import { defineComponent, toRefs, ref, computed, watch } from "vue"
 import { useTestStore1 } from "./store/useTest";
 export default defineComponent({
   setup() {
+    const count = ref(1);
+    const countRef = ref()
     const a = { num: 1 };
-    const test = useTestStore1();
+    const testStore = useTestStore1();
     const triggerA = () => {
-      test.$state.num++;
+      // testStore.add()
+      count.value++;
     }
+    watch(count, (news) =>{
+      console.log(news)
+      // 当不加 {flush: 'post'} textContent等于 1
+      // 反之 textContent等于 2
+      console.log(countRef.value?.textContent, 'textContent')
+    });
+
+    testStore.$onAction(({after}) => {
+      console.log("oooo")
+      after(() => {
+        console.log("hhaha")
+      })
+    })
+    testStore.$subscribe((params) => {
+      console.log(params,"params")
+    })
+    testStore.$patch({num: 2});
+    testStore.$patch((state) => {
+      state.num = 3
+    })
     const b = {
       c: 1,
       b: 2,
@@ -49,8 +72,10 @@ export default defineComponent({
     return {
       a,
       triggerA,
-      test,
-      b
+      testStore,
+      b,
+      count,
+      countRef
     }
   },
   components: {

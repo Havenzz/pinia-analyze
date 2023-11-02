@@ -427,6 +427,7 @@ function createSetupStore<
     $onAction: addSubscription.bind(null, actionSubscriptions), // action事件注册函数
     $patch, // store更新函数
     $reset, // 充值reset
+    $dispose, // 注销store
     $subscribe(callback, options = {}) {
       console.log("$subscribe");
       // 注册修改响应监听
@@ -454,7 +455,7 @@ function createSetupStore<
             }
           },
           assign({}, $subscribeOptions, options) // watch的第三个参数 默认deep为true
-          // 如果希望副作用函数在组件更新前发生，可以将flush设为'post'（默认是'pre'）
+          // 如果希望副作用函数在组件更新后发生，可以将flush设为'post'（默认是'pre'）
           // 如果flush设置为'sync'，一​​旦值改变，回调将被同步调用。
           // 对于'pre'和'post'，回调使用队列进行缓冲。回调只会被添加到队列中一次，即使被监视的值改变了多次。中间值将被跳过并且不会传递给回调。
           // 默认值为'pre'
@@ -462,8 +463,7 @@ function createSetupStore<
       )!;
 
       return removeSubscription;
-    },
-    $dispose, // 注销store
+    }
   } as _StoreWithState<Id, S, G, A>;
 
   /* istanbul ignore if */
@@ -486,7 +486,6 @@ function createSetupStore<
       // setupStore
     )
   ) as unknown as Store<Id, S, G, A>;
-  console.log("store", store);
 
   // 缓存当前store，
   pinia._s.set($id, store);
