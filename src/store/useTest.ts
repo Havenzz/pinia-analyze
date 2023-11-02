@@ -21,7 +21,7 @@ export const useTestStore1 = defineStore("test1", {
 })
 
 export const useTestStore2 = defineStore({
-  id:"test2",
+  id:"test2", 
   state() {
     return {
       num: 0
